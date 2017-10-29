@@ -34,8 +34,12 @@ public class Game
 			PerformPlayerTurn(playerTwo);
 
 			ResolvePlayerState(playerOne, playerTwo);
+			ResolvePlayerState(playerTwo, playerOne);
 			
-			if (playerOne.Health() <= 0 || playerTwo.Health() <= 0)
+			playerOne.ResolveEffects();
+			playerTwo.ResolveEffects();
+			
+			if (playerOne.Health <= 0 || playerTwo.Health <= 0)
 				break;
 		}
 		
@@ -44,25 +48,35 @@ public class Game
 	
 	public void ResolvePlayerState(Player attacker, Player defender)
 	{
-		if (attacker.State() == PlayerState.SWORD_ATTACK)
-		{
+		int attackerDamageModifier = 0;
+		int defenderDamageMitigation = 0;
+		
+		if (attacker.ActiveStrengthPotion != null)
+			attackerDamageModifier += GameConstants.StrengthPotionEffect;
+		
+		if (defender.State == PlayerState.BLOCKING)
+			defenderDamageMitigation += GameConstants.BlockingEffect;
 			
-		}
-		else if (attacker.State() == PlayerState.BOW_ATTACK)
+		if (attacker.State == PlayerState.SWORD_ATTACK)
 		{
-			
+			defender.Health -= (GameConstants.SwordAttackDamage + attackerDamageModifier) - defenderDamageMitigation;
 		}
-		else if (attacker.State() == PlayerState.USING_HEALTH_POTION)
+		else if (attacker.State == PlayerState.BOW_ATTACK)
 		{
-			attacker.health += GameConstants.HealthPotionEffect;
+			defender.Health -= (GameConstants.BowAttackDamage + attackerDamageModifier) - defenderDamageMitigation;
 		}
-		else if (attacker.State() == PlayerState.USING_POISON_POTION)
+		else if (attacker.State == PlayerState.USING_HEALTH_POTION)
 		{
-			
+			attacker.UseHealthPotion();
 		}
-		else if (attacker.State() == PlayerState.USING_STRENGTH_POTION)
+		else if (attacker.State == PlayerState.USING_POISON_POTION)
 		{
-			
+			PoisonPotion potion = attacker.GetPoisonPotion();
+			defender.ActivePoisonPotion = potion;
+		}
+		else if (attacker.State == PlayerState.USING_STRENGTH_POTION)
+		{
+			attacker.UseStrengthPotion();
 		}
 	}
 	
@@ -113,7 +127,7 @@ public class Game
 		boolean playerInputInvalid = true;
 		while (playerInputInvalid)
 		{
-			output.Print("Current Health: " + player.Health() + "/100", true);
+			output.Print("Current Health: " + player.Health + "/100", true);
 			PrintPlayerMenu(player);
 			int playerInput = GetPlayerMoveInput(player);
 			
@@ -124,7 +138,7 @@ public class Game
 				if (state == PlayerState.NONE)
 					continue;
 				
-				player.SetState(state);
+				player.State = state;
 				playerInputInvalid = false;
 			}
 		}
@@ -189,8 +203,8 @@ public class Game
 	
 	public void DisplayEndGameScreen(Player playerOne, Player playerTwo) 
 	{
-		boolean playerOneDead = playerOne.Health() <= 0;
-		boolean playerTwoDead = playerTwo.Health() <= 0;
+		boolean playerOneDead = playerOne.Health <= 0;
+		boolean playerTwoDead = playerTwo.Health <= 0;
 		
 		if (playerOneDead && playerTwoDead)
 		{

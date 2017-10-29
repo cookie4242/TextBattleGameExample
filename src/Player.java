@@ -3,17 +3,20 @@ import java.util.ArrayList;
 public class Player 
 {
 	public final String Name;
-	public int health;
+	public int Health;
+	public PlayerState State;
+	public HealthPotion ActiveHealthPotion;
+	public PoisonPotion ActivePoisonPotion;
+	public StrengthPotion ActiveStrengthPotion;
 	private final ArrayList<HealthPotion> healthPotions;
 	private final ArrayList<PoisonPotion> poisonPotions;
 	private final ArrayList<StrengthPotion> strengthPotions;
-	private PlayerState state;
 	
 	public Player(String name)
 	{
 		Name = name;
-		state = PlayerState.NONE;
-		health = 100;
+		State = PlayerState.NONE;
+		Health = 100;
 		healthPotions = new ArrayList<HealthPotion>();
 		healthPotions.add(new HealthPotion());
 		healthPotions.add(new HealthPotion());
@@ -30,29 +33,14 @@ public class Player
 		strengthPotions.add(new StrengthPotion());
 	}
 	
-	public int Health()
-	{
-		return health;
-	}
-	
-	public PlayerState State()
-	{
-		return state;
-	}
-	
-	public void SetState(PlayerState state)
-	{
-		this.state = state;
-	}
-	
 	public int HealthPotionCount()
 	{
 		return healthPotions.size();
 	}
 	
-	public HealthPotion GetHealthPotion()
+	public void UseHealthPotion()
 	{
-		return healthPotions.remove(0);
+		ActiveHealthPotion = healthPotions.remove(0);
 	}
 	
 	public int PoisonPotionCount()
@@ -70,8 +58,27 @@ public class Player
 		return strengthPotions.size();
 	}
 	
-	public StrengthPotion GetStrengthPotion()
+	public void UseStrengthPotion()
 	{
-		return strengthPotions.remove(0);
+		ActiveStrengthPotion = strengthPotions.remove(0);
+	}
+	
+	public void ResolveEffects()
+	{
+		if (ActiveHealthPotion != null)
+		{
+			Health += GameConstants.HealthPotionEffect;
+			ActiveHealthPotion = null;
+		}
+		
+		if (ActivePoisonPotion != null)
+		{
+			Health -= GameConstants.PoisonPotionDamage;
+		}
+		
+		if (ActiveStrengthPotion != null)
+		{
+			
+		}
 	}
 }
