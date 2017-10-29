@@ -16,6 +16,8 @@ public class OutputService
 			System.out.println(text);
 		else
 			System.out.print(text);
+		
+		System.out.flush();
 	}
 	
 	public void PrintErrorLn(String text)
@@ -26,9 +28,9 @@ public class OutputService
 	
 	public void PressAnyKeyToContinue()
 	{
-		try {
-	        System.in.read();
-		}
-		catch (Exception e) { }
+//		try {
+//	        System.in.read();
+//		}
+//		catch (Exception e) { }
 	}
 }

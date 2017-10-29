@@ -3,10 +3,10 @@ import java.util.ArrayList;
 public class Player 
 {
 	public final String Name;
+	public int health;
 	private final ArrayList<HealthPotion> healthPotions;
 	private final ArrayList<PoisonPotion> poisonPotions;
 	private final ArrayList<StrengthPotion> strengthPotions;
-	private int health;
 	private PlayerState state;
 	
 	public Player(String name)
@@ -40,9 +40,14 @@ public class Player
 		return state;
 	}
 	
-	public boolean HasHealthPotions()
+	public void SetState(PlayerState state)
 	{
-		return healthPotions.isEmpty() ? false : true;
+		this.state = state;
+	}
+	
+	public int HealthPotionCount()
+	{
+		return healthPotions.size();
 	}
 	
 	public HealthPotion GetHealthPotion()
@@ -50,9 +55,9 @@ public class Player
 		return healthPotions.remove(0);
 	}
 	
-	public boolean HasPoisonPotions()
+	public int PoisonPotionCount()
 	{
-		return poisonPotions.isEmpty() ? false : true;
+		return poisonPotions.size();
 	}
 	
 	public PoisonPotion GetPoisonPotion()
@@ -60,9 +65,9 @@ public class Player
 		return poisonPotions.remove(0);
 	}
 	
-	public boolean HasStrengthPotions()
+	public int StrengthPotionCount()
 	{
-		return strengthPotions.isEmpty() ? false : true;
+		return strengthPotions.size();
 	}
 	
 	public StrengthPotion GetStrengthPotion()
