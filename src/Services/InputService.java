@@ -18,12 +18,13 @@ public class InputService
 	public int GetIntInput()
 	{
 		boolean tryForInput = true;
-		String text = input.nextLine();
+		String text = "";
 		
 		while (tryForInput)
 		{
 			try
 			{
+				text = input.nextLine();
 				return Integer.parseInt(text);
 			}
 			catch (Exception e)
