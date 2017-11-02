@@ -1,3 +1,4 @@
+package Game.Constants;
 public class GameConstants 
 {
 	public static final int MinPlayerMove = 0;
@@ -11,7 +12,4 @@ public class GameConstants
 	public static final int SwordAttackDamage = 10;
 	public static final int BowAttackDamage = 15;
 	public static final int BlockingEffect = 10;
-	public static final int HealthPotionEffect = 30;
-	public static final int PoisonPotionDamage = 15;
-	public static final int StrengthPotionEffect = 10;
 }

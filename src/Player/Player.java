@@ -1,4 +1,10 @@
+package Player;
 import java.util.ArrayList;
+
+import Game.Constants.GameConstants;
+import Items.HealthPotion;
+import Items.PoisonPotion;
+import Items.StrengthPotion;
 
 public class Player 
 {
@@ -67,18 +73,28 @@ public class Player
 	{
 		if (ActiveHealthPotion != null)
 		{
-			Health += GameConstants.HealthPotionEffect;
-			ActiveHealthPotion = null;
-		}
-		
-		if (ActivePoisonPotion != null)
-		{
-			Health -= GameConstants.PoisonPotionDamage;
-		}
-		
-		if (ActiveStrengthPotion != null)
-		{
+			ActiveHealthPotion.Use();
+			Health += HealthPotion.Effect;
 			
+			if (ActiveHealthPotion.UsesRemaining() <= 0)
+				ActiveHealthPotion = null;
+		}
+		
+		if (ActivePoisonPotion != null && ActivePoisonPotion.UsesRemaining() > 0)
+		{
+			ActivePoisonPotion.Use();
+			Health -= PoisonPotion.Effect;
+			
+			if (ActivePoisonPotion.UsesRemaining() <= 0)
+				ActivePoisonPotion = null;
+		}
+		
+		if (ActiveStrengthPotion != null && ActiveStrengthPotion.UsesRemaining() > 0)
+		{
+			ActiveStrengthPotion.Use();
+			
+			if (ActiveStrengthPotion.UsesRemaining() <= 0)
+				ActiveStrengthPotion = null;
 		}
 	}
 }
