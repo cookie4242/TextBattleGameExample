@@ -15,6 +15,7 @@ public class MedievalBattleTextGame
 		GameUI userInterface = new GameUI(input, output);
 		PlayerTurnService turnService = new PlayerTurnService(output, userInterface, stateService);
 		Game game = new Game(input, output, stateService, turnService, userInterface);
+		
 		game.Play();
 	}
 }

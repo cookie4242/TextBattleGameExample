@@ -73,8 +73,7 @@ public class Player
 	{
 		if (ActiveHealthPotion != null)
 		{
-			ActiveHealthPotion.Use();
-			Health += HealthPotion.Effect;
+			Health += ActiveHealthPotion.Use();
 			
 			if (ActiveHealthPotion.UsesRemaining() <= 0)
 				ActiveHealthPotion = null;
@@ -82,8 +81,7 @@ public class Player
 		
 		if (ActivePoisonPotion != null && ActivePoisonPotion.UsesRemaining() > 0)
 		{
-			ActivePoisonPotion.Use();
-			Health -= PoisonPotion.Effect;
+			Health -= ActivePoisonPotion.Use();
 			
 			if (ActivePoisonPotion.UsesRemaining() <= 0)
 				ActivePoisonPotion = null;

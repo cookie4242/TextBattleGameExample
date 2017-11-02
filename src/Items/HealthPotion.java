@@ -1,13 +1,20 @@
 package Items;
 public class HealthPotion 
 {
-	public static final int Effect = 30;
+	private int effect = 30;
 	private int uses = 1;
 	
-	public void Use()
+	public int Use()
 	{
 		if (uses > 0)
+		{
 			uses--;
+			return effect;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	public int UsesRemaining()
